@@ -1,0 +1,33 @@
+[
+  {
+    "id": "ca0a90ff-c184-49ff-a0ad-caba248c940d",
+    "type": "announcement",
+    "title": "dssfghgfgfdfg",
+    "body": "sdfghjkaSdfgdddddddddd",
+    "language": "en",
+    "meta": {},
+    "published": true,
+    "startAt": "2026-02-12T10:09",
+    "endAt": "2026-02-12T11:09",
+    "createdAt": "2026-02-12T07:09:32.870Z",
+    "updatedAt": "2026-02-14T06:08:19.787Z",
+    "reminderSent": false
+  },
+  {
+    "id": "86bf9339-5776-44ed-9234-314d92d4223c",
+    "type": "help",
+    "title": "dsfdsfddsfdsf",
+    "body": "asdfegrthjyukk",
+    "language": "en",
+    "meta": {},
+    "published": true,
+    "startAt": "2026-02-12T11:34",
+    "endAt": "2026-02-13T01:34",
+    "imageUrl": "http://localhost:5000/uploads/1770885248733-7elvos.png",
+    "caption": null,
+    "pinned": true,
+    "reminderSent": false,
+    "createdAt": "2026-02-12T08:34:29.713Z",
+    "updatedAt": "2026-02-12T08:41:47.522Z"
+  }
+]

@@ -1,0 +1,11 @@
+{
+  "appName": "FindMed",
+  "mapProvider": "google",
+  "defaultLanguage": "en",
+  "maintenanceMode": false,
+  "backupIntervalDays": 7,
+  "multiLanguage": false,
+  "darkMode": false,
+  "smtpUser": "kaleabayenew2@gmail.com",
+  "smtpPass": "Kale@1513"
+}

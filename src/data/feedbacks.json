@@ -1,0 +1,89 @@
+[
+  {
+    "id": "1767508108949",
+    "name": "kaleab",
+    "email": "kaleab@gmail.com",
+    "message": "hi abubeker",
+    "createdAt": "2026-01-04T06:28:28.949Z",
+    "sourceIp": "127.0.0.1",
+    "replied": true,
+    "reply": "ok",
+    "replyMethod": "admin:ui",
+    "repliedAt": "2026-01-04T06:28:49.329Z"
+  },
+  {
+    "id": "1767508624701",
+    "name": "",
+    "email": "",
+    "message": "dfffasdd",
+    "createdAt": "2026-01-04T06:37:04.701Z",
+    "sourceIp": "127.0.0.1",
+    "replied": true,
+    "reply": "kaleab",
+    "replyMethod": "admin:ui",
+    "repliedAt": "2026-01-04T06:37:22.993Z"
+  },
+  {
+    "id": "1769062303660",
+    "name": "",
+    "email": "",
+    "message": "kaleab",
+    "createdAt": "2026-01-22T06:11:43.685Z",
+    "sourceIp": "127.0.0.1",
+    "replied": true,
+    "reply": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+    "replyMethod": "admin:ui",
+    "repliedAt": "2026-01-22T06:11:56.769Z"
+  },
+  {
+    "id": "1771182859387",
+    "name": "kaleab",
+    "email": "Kale",
+    "message": "hi this",
+    "createdAt": "2026-02-15T19:14:19.387Z",
+    "sourceIp": "127.0.0.1",
+    "replied": false,
+    "reply": null,
+    "replyMethod": null
+  },
+  {
+    "id": "1771184246832",
+    "name": "sdfsdf",
+    "email": "kaleab@gmail.com",
+    "message": "kaleab",
+    "createdAt": "2026-02-15T19:37:26.832Z",
+    "sourceIp": "127.0.0.1",
+    "replied": false,
+    "reply": null,
+    "replyMethod": null
+  },
+  {
+    "id": "1771250972586",
+    "name": "kaleabdsfsgfd",
+    "email": "kaleabayenew2@gmail.com",
+    "message": "errrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+    "createdAt": "2026-02-16T14:09:32.586Z",
+    "sourceIp": "127.0.0.1",
+    "replied": false,
+    "reply": null,
+    "replyMethod": null
+  },
+  {
+    "id": "1771252240351",
+    "name": "lkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+    "email": "kaleabayenew2@gmail.com",
+    "message": "errzsdfghf",
+    "attachments": [
+      {
+        "url": "http://localhost:5000/uploads/1771252208393-524834781.png",
+        "filename": "1771252208393-524834781.png",
+        "type": "file"
+      }
+    ],
+    "createdAt": "2026-02-16T14:30:40.351Z",
+    "sourceIp": "127.0.0.1",
+    "replied": false,
+    "reply": null,
+    "replyMethod": null
+  }
+]

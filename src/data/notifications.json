@@ -1,0 +1,538 @@
+[
+  {
+    "id": "1767508642995",
+    "feedbackId": "1767508624701",
+    "targetEmail": null,
+    "targetIp": "127.0.0.1",
+    "message": "kaleab",
+    "createdAt": "2026-01-04T06:37:22.995Z",
+    "read": true,
+    "readAt": "2026-02-12T06:36:57.768Z"
+  },
+  {
+    "id": "1769062316781",
+    "feedbackId": "1769062303660",
+    "targetEmail": null,
+    "targetIp": "127.0.0.1",
+    "message": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+    "createdAt": "2026-01-22T06:11:56.781Z",
+    "read": true,
+    "readAt": "2026-02-12T06:42:16.183Z"
+  },
+  {
+    "id": "698d112fc018c1a23cd6a84f",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "kaleab",
+    "createdAt": "2026-02-11T23:30:55.268Z",
+    "read": true,
+    "readAt": "2026-02-12T06:42:20.823Z"
+  },
+  {
+    "id": "698d13edc018c1a23cd6a85e",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "hi",
+    "createdAt": "2026-02-11T23:42:37.809Z",
+    "read": true,
+    "readAt": "2026-02-12T06:42:25.113Z"
+  },
+  {
+    "id": "698d17e0c018c1a23cd6a86d",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "hi",
+    "createdAt": "2026-02-11T23:59:28.329Z",
+    "read": true,
+    "readAt": "2026-02-12T06:37:07.121Z"
+  },
+  {
+    "id": "698d18c1c018c1a23cd6a874",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "hi",
+    "createdAt": "2026-02-12T00:03:13.154Z",
+    "read": true,
+    "readAt": "2026-02-12T06:37:04.707Z"
+  },
+  {
+    "id": "698d74175f49dbef3296e229",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "hi",
+    "createdAt": "2026-02-12T06:32:55.110Z",
+    "read": true,
+    "readAt": "2026-02-12T06:36:51.660Z"
+  },
+  {
+    "id": "69902decb0c571a0b8a80c33",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "hi",
+    "meta": {},
+    "createdAt": "2026-02-14T08:10:20.831Z"
+  },
+  {
+    "id": "69903595aa327a62d4919540",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "hi",
+    "meta": {},
+    "createdAt": "2026-02-14T08:43:01.547Z"
+  },
+  {
+    "id": "699035b9aa327a62d4919548",
+    "type": "chat_message",
+    "from": "admin",
+    "text": "selam new",
+    "meta": {},
+    "createdAt": "2026-02-14T08:43:37.069Z"
+  },
+  {
+    "id": "69904310aa327a62d4919564",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "k",
+    "meta": {},
+    "createdAt": "2026-02-14T09:40:32.943Z"
+  },
+  {
+    "id": "699044deaa327a62d4919573",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "hi",
+    "meta": {},
+    "createdAt": "2026-02-14T09:48:14.309Z"
+  },
+  {
+    "id": "69904813aa327a62d4919582",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "ff",
+    "meta": {},
+    "createdAt": "2026-02-14T10:01:55.016Z"
+  },
+  {
+    "id": "69908861aa327a62d49195ad",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "ff",
+    "meta": {},
+    "createdAt": "2026-02-14T14:36:18.035Z"
+  },
+  {
+    "id": "69908960aa327a62d49195bc",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "gg",
+    "meta": {},
+    "createdAt": "2026-02-14T14:40:32.161Z"
+  },
+  {
+    "id": "69908bf8d6f4814d2b79a3ae",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "k",
+    "meta": {},
+    "createdAt": "2026-02-14T14:51:36.413Z"
+  },
+  {
+    "id": "69908d7d2347f69ce108dd30",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "kaleab",
+    "meta": {},
+    "createdAt": "2026-02-14T14:58:05.024Z"
+  },
+  {
+    "id": "69908db22347f69ce108dd38",
+    "type": "chat_message",
+    "from": "admin",
+    "text": "selam",
+    "meta": {},
+    "createdAt": "2026-02-14T14:58:58.148Z"
+  },
+  {
+    "id": "69908fce2347f69ce108dd46",
+    "type": "chat_message",
+    "from": "admin",
+    "text": "dd",
+    "meta": {},
+    "createdAt": "2026-02-14T15:07:58.614Z"
+  },
+  {
+    "id": "6990913c2347f69ce108dd5b",
+    "type": "chat_message",
+    "from": "admin",
+    "text": "dddd",
+    "meta": {},
+    "createdAt": "2026-02-14T15:14:04.338Z"
+  },
+  {
+    "id": "699091552347f69ce108dd5f",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "ddddddddd",
+    "meta": {},
+    "createdAt": "2026-02-14T15:14:29.851Z"
+  },
+  {
+    "id": "699091632347f69ce108dd63",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "sadfghjk",
+    "meta": {},
+    "createdAt": "2026-02-14T15:14:43.699Z"
+  },
+  {
+    "id": "6990916a2347f69ce108dd65",
+    "type": "chat_message",
+    "from": "admin",
+    "text": "sadfghjk",
+    "meta": {},
+    "createdAt": "2026-02-14T15:14:50.682Z"
+  },
+  {
+    "id": "699092b02347f69ce108dd6e",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "ddddddddddddddddddddd",
+    "meta": {},
+    "createdAt": "2026-02-14T15:20:16.526Z"
+  },
+  {
+    "id": "699092cd2347f69ce108dd76",
+    "type": "chat_message",
+    "from": "admin",
+    "text": "sdfsddsddddddddddddd",
+    "meta": {},
+    "createdAt": "2026-02-14T15:20:45.398Z"
+  },
+  {
+    "id": "6990944e2347f69ce108dd85",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "hi",
+    "meta": {},
+    "createdAt": "2026-02-14T15:27:10.305Z"
+  },
+  {
+    "id": "6990946a2347f69ce108dd8d",
+    "type": "chat_message",
+    "from": "admin",
+    "text": "ss",
+    "meta": {},
+    "createdAt": "2026-02-14T15:27:38.293Z"
+  },
+  {
+    "id": "699095482347f69ce108dd95",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "ff",
+    "meta": {},
+    "createdAt": "2026-02-14T15:31:20.344Z"
+  },
+  {
+    "id": "6990955e2347f69ce108dd9d",
+    "type": "chat_message",
+    "from": "admin",
+    "text": "ddddddddddddddddddddddddddddddd",
+    "meta": {},
+    "createdAt": "2026-02-14T15:31:42.220Z"
+  },
+  {
+    "id": "699095ad63d10ee632247cf2",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "ggggg",
+    "meta": {},
+    "createdAt": "2026-02-14T15:33:01.769Z"
+  },
+  {
+    "id": "699095b563d10ee632247cf4",
+    "type": "chat_message",
+    "from": "admin",
+    "text": "sasssssssssssssssssssssssssss",
+    "meta": {},
+    "createdAt": "2026-02-14T15:33:09.341Z"
+  },
+  {
+    "id": "699096d25c810db7a125f2b7",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "sdfghjksdfrtyguerty",
+    "meta": {},
+    "createdAt": "2026-02-14T15:37:54.209Z"
+  },
+  {
+    "id": "699096f05c810db7a125f2bf",
+    "type": "chat_message",
+    "from": "admin",
+    "text": "ddddddddddddddddddddddddddddddd",
+    "meta": {},
+    "createdAt": "2026-02-14T15:38:24.191Z"
+  },
+  {
+    "id": "6991a91cb4365033b6842283",
+    "type": "chat_message",
+    "from": "admin",
+    "text": "ssssssssssssssssssssss",
+    "meta": {},
+    "createdAt": "2026-02-15T11:08:12.666Z"
+  },
+  {
+    "id": "6991aabbfa40edbfa5bd2651",
+    "type": "chat_message",
+    "from": "admin",
+    "text": "ooooooooooooooooooooooooooooooo",
+    "meta": {},
+    "createdAt": "2026-02-15T11:15:07.148Z"
+  },
+  {
+    "id": "6991acbfb82d9a3bc06c5c8e",
+    "type": "chat_message",
+    "from": "admin",
+    "text": "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+    "meta": {},
+    "createdAt": "2026-02-15T11:23:43.085Z"
+  },
+  {
+    "id": "6991accfb82d9a3bc06c5c90",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "ddddddddddddddddddd",
+    "meta": {},
+    "createdAt": "2026-02-15T11:23:59.006Z"
+  },
+  {
+    "id": "6991acd7b82d9a3bc06c5c92",
+    "type": "chat_message",
+    "from": "admin",
+    "text": "ffffffffffffffffffffffffffffffffffffffffff",
+    "meta": {},
+    "createdAt": "2026-02-15T11:24:07.148Z"
+  },
+  {
+    "id": "6991af40a6e61cd0310c7adb",
+    "type": "chat_message",
+    "from": "admin",
+    "text": "dddddddddssssssssssssssssssssss",
+    "meta": {},
+    "createdAt": "2026-02-15T11:34:24.796Z"
+  },
+  {
+    "id": "6991b109a6e61cd0310c7ae5",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "sssssssss",
+    "meta": {},
+    "createdAt": "2026-02-15T11:42:01.659Z"
+  },
+  {
+    "id": "6991b28d8aae130d6c8aecc9",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "gg",
+    "meta": {},
+    "createdAt": "2026-02-15T11:48:29.874Z"
+  },
+  {
+    "id": "6991b3308aae130d6c8aecd7",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "dddddddddddd",
+    "meta": {},
+    "createdAt": "2026-02-15T11:51:12.995Z"
+  },
+  {
+    "id": "6991b3628aae130d6c8aecdd",
+    "type": "chat_message",
+    "from": "admin",
+    "text": "ssssss",
+    "meta": {},
+    "createdAt": "2026-02-15T11:52:02.621Z"
+  },
+  {
+    "id": "6991b439e5b0ec91f63c96b9",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "aaaaaaaaaaaaa",
+    "meta": {},
+    "createdAt": "2026-02-15T11:55:37.904Z"
+  },
+  {
+    "id": "6991b591fa847369d82f3da7",
+    "type": "chat_message",
+    "from": "anonymous",
+    "text": "ttttttttttttttt",
+    "meta": {},
+    "createdAt": "2026-02-15T12:01:21.184Z"
+  },
+  {
+    "id": "6991b629dc2015bb0861e49d",
+    "type": "chat_message",
+    "conversationId": "anonymous",
+    "from": "anonymous",
+    "text": "ds",
+    "meta": {},
+    "createdAt": "2026-02-15T12:03:53.756Z"
+  },
+  {
+    "id": "6991b6760eb18ab9f5b6ad25",
+    "type": "chat_message",
+    "conversationId": "anonymous",
+    "from": "anonymous",
+    "text": "aaaaaaaaaaaa",
+    "meta": {},
+    "createdAt": "2026-02-15T12:05:10.276Z"
+  },
+  {
+    "id": "6991b6940eb18ab9f5b6ad2d",
+    "type": "chat_message",
+    "from": "admin",
+    "text": "eeeeeeeeeee",
+    "meta": {},
+    "createdAt": "2026-02-15T12:05:40.788Z"
+  },
+  {
+    "id": "6991b7840eb18ab9f5b6ad3a",
+    "type": "chat_message",
+    "conversationId": "69596f8b271096182426ccb1",
+    "from": "69596f8b271096182426ccb1",
+    "text": "kaleab",
+    "meta": {},
+    "createdAt": "2026-02-15T12:09:40.161Z"
+  },
+  {
+    "id": "6991b7ac0eb18ab9f5b6ad44",
+    "type": "chat_message",
+    "conversationId": "69596f8b271096182426ccb1",
+    "from": "admin",
+    "text": "hi",
+    "meta": {},
+    "createdAt": "2026-02-15T12:10:20.145Z"
+  },
+  {
+    "id": "6991bcc0e962bb248270eee7",
+    "type": "chat_message",
+    "conversationId": "69596f8b271096182426ccb1",
+    "from": "69596f8b271096182426ccb1",
+    "text": "ff",
+    "meta": {
+      "userId": "69596f8b271096182426ccb1",
+      "fullName": "kaleab"
+    },
+    "createdAt": "2026-02-15T12:32:01.089Z"
+  },
+  {
+    "id": "6991bce6e962bb248270eef5",
+    "type": "chat_message",
+    "conversationId": "69596f8b271096182426ccb1",
+    "from": "admin",
+    "text": "sssssssssssssssssssssssss",
+    "meta": {},
+    "createdAt": "2026-02-15T12:32:38.874Z"
+  },
+  {
+    "id": "6991c545308b2d0a4f3df1c7",
+    "type": "chat_message",
+    "conversationId": "69596f8b271096182426ccb1",
+    "from": "69596f8b271096182426ccb1",
+    "text": "sssssssssss",
+    "meta": {
+      "userId": "69596f8b271096182426ccb1",
+      "fullName": "kaleab"
+    },
+    "createdAt": "2026-02-15T13:08:22.006Z"
+  },
+  {
+    "id": "6991ff5d308b2d0a4f3df28c",
+    "type": "chat_message",
+    "conversationId": "69596f8b271096182426ccb1",
+    "from": "admin",
+    "text": "you are the best coder",
+    "meta": {},
+    "createdAt": "2026-02-15T17:16:13.351Z"
+  },
+  {
+    "id": "69920b4d308b2d0a4f3df2d9",
+    "type": "chat_message",
+    "conversationId": "69596f8b271096182426ccb1",
+    "from": "69596f8b271096182426ccb1",
+    "text": "hi",
+    "meta": {
+      "userId": "69596f8b271096182426ccb1",
+      "fullName": "kaleab"
+    },
+    "createdAt": "2026-02-15T18:07:09.827Z"
+  },
+  {
+    "id": "699219d8c88748ea69a2d115",
+    "type": "chat_message",
+    "from": "admin",
+    "text": "dddd",
+    "meta": {},
+    "createdAt": "2026-02-15T19:09:12.207Z"
+  },
+  {
+    "id": "1771184246835",
+    "type": "chat_message",
+    "conversationId": "1771184246832",
+    "from": "kaleab@gmail.com",
+    "fromName": "sdfsdf",
+    "text": "kaleab",
+    "createdAt": "2026-02-15T19:37:26.835Z",
+    "read": false
+  },
+  {
+    "id": "1771250972602",
+    "type": "chat_message",
+    "conversationId": "1771250972586",
+    "from": "kaleabayenew2@gmail.com",
+    "fromName": "kaleabdsfsgfd",
+    "text": "errrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+    "createdAt": "2026-02-16T14:09:32.602Z",
+    "read": true,
+    "readAt": "2026-02-16T14:10:13.123Z"
+  },
+  {
+    "id": "69932534f0aa145b5e42b6f3",
+    "type": "chat_message",
+    "conversationId": "1771250972586",
+    "from": "admin",
+    "text": "eeeeeeeeeeeeeee",
+    "meta": {},
+    "createdAt": "2026-02-16T14:09:56.191Z"
+  },
+  {
+    "id": "1771252240381",
+    "type": "chat_message",
+    "conversationId": "1771252240351",
+    "from": "kaleabayenew2@gmail.com",
+    "fromName": "lkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+    "text": "errzsdfghf",
+    "createdAt": "2026-02-16T14:30:40.381Z",
+    "read": false
+  },
+  {
+    "id": "6993361548e7eabf4f5f4b96",
+    "type": "chat_message",
+    "conversationId": "69596f8b271096182426ccb1",
+    "from": "69596f8b271096182426ccb1",
+    "text": "adam",
+    "meta": {
+      "userId": "69596f8b271096182426ccb1",
+      "fullName": "kaleab"
+    },
+    "createdAt": "2026-02-16T15:21:57.492Z"
+  },
+  {
+    "id": "6993363b48e7eabf4f5f4b9e",
+    "type": "chat_message",
+    "conversationId": "anonymous",
+    "from": "anonymous",
+    "text": "thghss",
+    "meta": {},
+    "createdAt": "2026-02-16T15:22:35.923Z"
+  }
+]
