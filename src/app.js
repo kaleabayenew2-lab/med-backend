@@ -49,8 +49,9 @@ app.use(helmet({
 }));
 app.use(cors({
   origin: [
-    process.env.FRONTEND_ORIGIN || 'https://admin-lpya.onrender.com',
+    process.env.FRONTEND_ORIGIN || 'https://med-admin-n3ij.onrender.com',
     'https://admin-lpya.onrender.com',
+    'https://med-admin-n3ij.onrender.com',
     'http://localhost:3000',
     'http://192.168.55.60:3000'
   ],

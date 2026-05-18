@@ -63,7 +63,9 @@ initializeEmailService().then(success => {
   const io = socketIo(server, {
     cors: {
       origin: [
-        process.env.FRONTEND_ORIGIN || 'https://admin-lpya.onrender.com',
+        process.env.FRONTEND_ORIGIN || 'https://med-admin-n3ij.onrender.com',
+        'https://admin-lpya.onrender.com',
+        'https://med-admin-n3ij.onrender.com',
         'http://localhost:3000',
         'http://127.0.0.1:3000'
       ],
@@ -87,7 +89,7 @@ initializeEmailService().then(success => {
     });
   });
   
-  server.listen(PORT, '0.0.0.0', () => {
+  server.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
     console.log(`📊 Health check: http://localhost:${PORT}/health`);
     console.log(`🏥 Facilities API: http://localhost:${PORT}/api/facilities`);
