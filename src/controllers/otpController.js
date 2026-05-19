@@ -5,6 +5,12 @@ const { createTransporter, sendOTPEmail } = require('../services/emailService');
 // Store OTPs in memory (in production, use Redis or database)
 const otpStore = new Map();
 
+const isOtpFallbackEnabled = () => {
+  const fallbackFlag = process.env.OTP_FALLBACK_ON_FAILURE === 'true';
+  const isDevelopment = process.env.NODE_ENV !== 'production';
+  return fallbackFlag || isDevelopment;
+};
+
 // Generate 6-digit OTP
 function generateOtp() {
   return Math.floor(100000 + Math.random()  * 900000).toString();
@@ -268,19 +274,21 @@ const sendRegistrationOtp = async (req, res) => {
         processingTime: `${processingTime}ms`
       });
     } else {
+      const fallbackEnabled = isOtpFallbackEnabled();
       console.log(`❌ [OTP] Email failed to send in ${processingTime}ms`);
       console.log(`⚠️ [OTP] Email error: ${emailResult?.error || 'Unknown error'}`);
+      console.log(`ℹ️ [OTP] Fallback enabled: ${fallbackEnabled}`);
 
-      // Allow fallback to return OTP when configured via env or in development
-      if (process.env.OTP_FALLBACK_ON_FAILURE === 'true' || process.env.NODE_ENV !== 'production') {
-        console.log('ℹ️ [OTP] Fallback enabled: returning OTP in response for testing');
+      if (fallbackEnabled) {
+        console.log('ℹ️ [OTP] Returning development OTP for testing');
         res.json({
           success: true,
-          message: 'OTP sent (console fallback)',
+          message: 'OTP email failed, using development fallback',
           expiresIn: '10 minutes',
           developmentOTP: otp,
           processingTime: `${processingTime}ms`,
           emailError: emailResult?.error,
+          emailMethod: emailResult?.method || 'failed',
         });
         return;
       }
