@@ -1,6 +1,6 @@
 const { Resend } = require('resend');
 
-const resendApiKey = process.env.RESEND_API_KEY || 're_b3RQ3hbN_M3s3aeA2NQH2n3C9HsVWf1WR';
+const resendApiKey = process.env.RESEND_API_KEY || 're_JXC3EebA_KXFisTYYjcXngKCXAVAAUT7h';
 const resend = new Resend(resendApiKey);
 
 // Dummy createTransporter for backwards compatibility in case something calls it
@@ -13,7 +13,7 @@ async function sendEmail(to, subject, htmlContent) {
   try {
     console.log('📧 Attempting to send email via Resend API...');
     const data = await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
+      from: 'onboarding@resend.dev', // Resend requires this exact sender on free tier
       to,
       subject,
       html: htmlContent,
