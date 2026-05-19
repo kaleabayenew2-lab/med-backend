@@ -39,18 +39,15 @@ console.log('🔧 Starting backend server...');
 console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
 console.log(`🌐 Port: ${PORT}`);
 
-// Initialize email service once at startup
-const { initializeEmailService } = require('./src/services/emailService');
-console.log('📧 Initializing email service...');
-initializeEmailService().then(success => {
-  if (success) {
-    console.log('✅ Email service initialized successfully');
-  } else {
-    console.log('⚠️ Email service initialization failed, will use fallback');
-  }
-}).catch(error => {
-  console.error('❌ Email service initialization error:', error);
-});
+// Initialize email transporter once at startup (lazy init also handled)
+const { createTransporter } = require('./src/services/emailService');
+console.log('📧 Ensuring email transporter available...');
+try {
+  createTransporter();
+  console.log('✅ Email transporter creation attempted (see logs for details)');
+} catch (err) {
+  console.warn('⚠️ Email transporter init warning:', err && err.message ? err.message : err);
+}
 
 (async () => {
   await initDatabase();

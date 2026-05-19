@@ -17,8 +17,8 @@ const ViewModel = require('./models/view');
 const BookingModel = require('./models/booking');
 const PromotionModel = require('./models/promotion');
 
-// Import and initialize email service
-const { initializeEmailService } = require('./services/emailService');
+// Import email service
+const { createTransporter } = require('./services/emailService');
 
 // Import routes
 const facilityRoutes = require('./routes/facilities');
@@ -316,11 +316,13 @@ async function initializeDatabase() {
   }
 }
 
-initializeEmailService().then(() => {
-  console.log('📧 Email service initialized');
-}).catch((error) => {
-  console.log('⚠️ Email service failed to initialize, using fallback:', error.message);
-});
+// Attempt to create transporter (non-blocking)
+try {
+  createTransporter();
+  console.log('📧 Email transporter initialization attempted');
+} catch (err) {
+  console.log('⚠️ Email transporter initialization warning:', err && err.message ? err.message : err);
+}
 
 initializeDatabase().catch((error) => {
   console.error('❌ Initial database setup failed:', error.message);

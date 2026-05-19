@@ -1,6 +1,6 @@
 // OTP controller for backend API
 const { connectToDatabase, initializeDatabase } = require('../database/connection');
-const { initializeEmailService, sendOTPEmail } = require('../services/emailService');
+const { createTransporter, sendOTPEmail } = require('../services/emailService');
 
 // Store OTPs in memory (in production, use Redis or database)
 const otpStore = new Map();
@@ -245,11 +245,11 @@ const sendRegistrationOtp = async (req, res) => {
 
     console.log('📤 [OTP] Sending email...');
 
-    // Ensure email service is initialized (harmless if already initialized)
+    // Ensure transporter exists (createTransporter is lazy and harmless)
     try {
-      await initializeEmailService();
+      createTransporter();
     } catch (initErr) {
-      console.warn('⚠️ [OTP] Email service initialization warning:', initErr && initErr.message ? initErr.message : initErr);
+      console.warn('⚠️ [OTP] Email transporter init warning:', initErr && initErr.message ? initErr.message : initErr);
     }
 
     const emailResult = await sendOTPEmail(email, subject, html);
