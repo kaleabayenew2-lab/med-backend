@@ -407,7 +407,12 @@ exports.requestLoginOtp = async (req, res) => {
       if (DEV_RETURN_OTP) out.otp = otp; // dev helper
       return res.json(out);
     } else {
-      return res.json({ ok: false, via: 'email', message: 'Failed to send email' });
+      return res.status(500).json({ 
+        ok: false, 
+        success: false,
+        via: 'email', 
+        message: emailResult.error || 'Failed to send OTP email' 
+      });
     }
   } catch (err) {
     console.error('requestLoginOtp error', err);
@@ -654,7 +659,12 @@ exports.requestReset = async (req, res) => {
     if (emailResult.success) {
       return res.json({ ok: true, via: 'email' });
     } else {
-      return res.json({ ok: false, via: 'email', message: 'Failed to send email' });
+      return res.status(500).json({ 
+        ok: false, 
+        success: false,
+        via: 'email', 
+        message: emailResult.error || 'Failed to send reset code' 
+      });
     }
   } catch (err) {
     console.error('requestReset error', err);

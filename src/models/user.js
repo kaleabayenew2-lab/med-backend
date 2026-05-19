@@ -118,8 +118,37 @@ module.exports = {
 
   // Find user by any field
   async findOne(where) {
-    // FIX: Handle both { where: { field: value } } and { field: value } formats
-    const query = where.where || where;
+    const query = where ? (where.where || where) : {};
+    
+    // If querying by email or phone, we must decrypt in memory due to non-deterministic encryption
+    if (query.email || query.phone) {
+      const allUsers = await this.findAll();
+      return allUsers.find(user => {
+        for (const [key, value] of Object.entries(query)) {
+          if (key === 'email') {
+            if (!user.email || user.email.toLowerCase() !== String(value).toLowerCase()) {
+              return false;
+            }
+          } else if (key === 'phone') {
+            const qPhone = String(value).replace(/[^0-9]/g, '');
+            const uPhone = String(user.phone || '').replace(/[^0-9]/g, '');
+            if (qPhone && uPhone) {
+              if (!uPhone.endsWith(qPhone) && !qPhone.endsWith(uPhone)) {
+                return false;
+              }
+            } else if (user.phone !== value) {
+              return false;
+            }
+          } else {
+            if (user[key] !== value) {
+              return false;
+            }
+          }
+        }
+        return true;
+      }) || null;
+    }
+    
     const user = await db(TABLE)
       .where(query)
       .first();

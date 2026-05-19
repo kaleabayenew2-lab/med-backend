@@ -74,6 +74,9 @@ const sendOTPEmail = async (email, subject, html) => {
     const isProduction = process.env.NODE_ENV === 'production';
     
     // FIX: Always send real emails when email service is configured
+    if (!transporter) {
+      await initializeEmailService();
+    }
     if (transporter) {
       console.log('📧 Sending real email with optimized delivery...');
       
@@ -187,6 +190,9 @@ const sendPasswordEmail = async (email, password, facilityName) => {
     console.log('\n');
     
     // Try to send real email if transporter is available
+    if (!transporter) {
+      await initializeEmailService();
+    }
     if (transporter) {
       const mailOptions = {
         from: `"Find Med" <${process.env.EMAIL_USER || 'your-email@gmail.com'}>`,
