@@ -1,14 +1,8 @@
 const nodemailer = require('nodemailer');
 const dns = require('dns');
 
-// Force IPv4 preference globally when supported
-try {
-  if (typeof dns.setDefaultResultOrder === 'function') {
-    dns.setDefaultResultOrder('ipv4first');
-  }
-} catch (e) {
-  // ignore if not supported
-}
+// Force IPv4 only globally
+dns.setDefaultResultOrder('ipv4first');
 
 let transporter = null;
 
@@ -44,8 +38,8 @@ function createTransporter() {
       rejectUnauthorized: false,
     },
     family: 4,
-    lookup: (hostname, options, callback) => {
-      dns.lookup(hostname, { family: 4 }, callback);
+    dns: {
+      family: 4,
     },
   });
 
