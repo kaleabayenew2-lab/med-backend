@@ -48,11 +48,12 @@ function createTransporter() {
     return null;
   }
 
+  console.log('📧 Creating Gmail transporter with user:', emailUser);
+
   transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    requireTLS: true,
+    port: 465,
+    secure: true,
     auth: {
       user: emailUser,
       pass: emailPass,
@@ -62,8 +63,8 @@ function createTransporter() {
     pool: true,
     maxConnections: 5,
     maxMessages: 100,
-    lookup: (hostname, options, callback) => {
-      dns.lookup(hostname, { family: 4 }, callback);
+    tls: {
+      rejectUnauthorized: false,
     },
   });
 
@@ -71,6 +72,7 @@ function createTransporter() {
     console.log('📧 Nodemailer transporter verified');
   }).catch((err) => {
     console.warn('⚠️ Nodemailer verify warning:', err && err.message ? err.message : err);
+    console.warn('⚠️ Full error:', err);
   });
 
   return transporter;
@@ -103,15 +105,6 @@ async function sendViaSendGrid(to, subject, htmlContent) {
 // Send email function
 async function sendEmail(to, subject, htmlContent) {
   try {
-    const sgMail = loadSendGridClient();
-    if (sgMail) {
-      const sendgridResult = await sendViaSendGrid(to, subject, htmlContent);
-      if (sendgridResult.success) {
-        return sendgridResult;
-      }
-      console.warn('⚠️ SendGrid fallback to SMTP due to error:', sendgridResult.error);
-    }
-
     const tr = createTransporter();
 
     if (!tr) {
@@ -125,6 +118,7 @@ async function sendEmail(to, subject, htmlContent) {
       return { success: true, method: 'console', fallbackOtp };
     }
 
+    console.log('📧 Attempting to send email via SMTP...');
     const info = await tr.sendMail({
       from: `"Find Me" <${process.env.EMAIL_USER}>`,
       to,
@@ -137,8 +131,10 @@ async function sendEmail(to, subject, htmlContent) {
   } catch (error) {
     const errorInfo = error && (error.code || error.message) ? (error.code || error.message) : String(error);
     console.error('❌ Email failed:', errorInfo);
+    console.error('❌ Full error details:', error);
 
-    const fallbackOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpMatch = htmlContent && htmlContent.match(/(\d{6})/);
+    const fallbackOtp = otpMatch ? otpMatch[1] : (Math.floor(100000 + Math.random() * 900000)).toString();
     console.log('🔢 FALLBACK OTP:', fallbackOtp);
 
     return {
