@@ -109,13 +109,22 @@ async function sendOTP(req, res) {
       emailResult = await sendOTPEmail(identifier, emailSubject, emailHtml);
     }
 
+    if (method === 'email' && !emailResult.success) {
+      return res.status(500).json({
+        success: false,
+        message: emailResult.error || 'Failed to send OTP email',
+        emailSent: false,
+        emailMethod: emailResult.method || 'failed'
+      });
+    }
+
     res.status(200).json({
       success: true,
       message: 'OTP sent successfully',
       expiresIn: 600, // 10 minutes in seconds
       developmentOTP: process.env.NODE_ENV === 'development' ? otp : undefined, // Only in development
-      emailSent: emailResult.success,
-      emailMethod: emailResult.method || 'failed'
+      emailSent: emailResult.success || (method !== 'email'),
+      emailMethod: emailResult.method || 'none'
     });
   } catch (error) {
     console.error('Send OTP error:', error);

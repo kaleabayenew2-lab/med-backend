@@ -119,13 +119,13 @@ const sendOTPEmail = async (email, subject, html) => {
         console.error('📧 Email sending failed:', emailError.message);
         
         // Fallback to console display
-        const otpMatch = html.match(/<strong[^>]*>(\d{6})<\/strong>/);
+        const otpMatch = html.match(/<strong[^>]*>(\d{6})<\/strong>/) || html.match(/(\d{6})/);
         if (otpMatch) {
           console.log('\x1b[32m%s\x1b[0m', `🔢 FALLBACK OTP CODE: ${otpMatch[1]}`);
           console.log('\x1b[32m%s\x1b[0m', '📧 Use this code as backup!\n');
         }
         
-        return { success: true, method: 'console-fallback', error: emailError.message, processingTime: `${Date.now() - startTime}ms` };
+        return { success: false, method: 'email', error: emailError.message, processingTime: `${Date.now() - startTime}ms` };
       }
     }
     
@@ -161,7 +161,7 @@ const sendOTPEmail = async (email, subject, html) => {
     const endTime = Date.now();
     console.error(`Failed to send email in ${endTime - startTime}ms:`, error);
     console.log('\x1b[31m%s\x1b[0m', '📧 EMAIL FAILED - Using console fallback');
-    return { success: true, method: 'console', error: error.message, processingTime: `${endTime - startTime}ms` };
+    return { success: false, method: 'console', error: error.message, processingTime: `${endTime - startTime}ms` };
   }
 };
 
