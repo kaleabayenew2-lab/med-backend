@@ -2,9 +2,7 @@ const path = require('path');
 const fs = require('fs');
 
 function makeUrl(req, filename) {
-  const protocol = req.protocol;
-  const host = req.get('host');
-  return `${protocol}://${host}/uploads/${encodeURIComponent(filename)}`;
+  return `/uploads/${encodeURIComponent(filename)}`;
 }
 
 exports.upload = async (req, res) => {

@@ -23,7 +23,7 @@
     "published": true,
     "startAt": "2026-02-12T11:34",
     "endAt": "2026-02-13T01:34",
-    "imageUrl": "http://localhost:5000/uploads/1770885248733-7elvos.png",
+    "imageUrl": "/uploads/1770885248733-7elvos.png",
     "caption": null,
     "pinned": true,
     "reminderSent": false,
