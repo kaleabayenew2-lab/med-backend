@@ -1,5 +1,6 @@
 // Email service for sending OTP emails
 const nodemailer = require('nodemailer');
+const dns = require('dns');
 let transporter = null;
 
 // Initialize email transporter
@@ -15,6 +16,7 @@ const initializeEmailService = async () => {
 
   try {
     // OPTIMIZATION: Create optimized transporter with faster settings
+    // Force IPv4 DNS lookups to avoid IPv6 routing issues (ENETUNREACH)
     transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 587,
@@ -28,10 +30,15 @@ const initializeEmailService = async () => {
       maxConnections: 5,
       maxMessages: 100,
       // OPTIMIZATION: Faster connection settings
-      connectionTimeout: 5000, // 5 seconds
-      greetingTimeout: 3000,   // 3 seconds
-      socketTimeout: 10000,    // 10 seconds
-      // OPTIMIZATION: DNS resolution caching
+      connectionTimeout: 10000, // 10 seconds
+      greetingTimeout: 5000,   // 5 seconds
+      socketTimeout: 20000,    // 20 seconds
+      // Provide a custom DNS lookup that prefers IPv4 to avoid host IPv6 routing errors
+      lookup: (hostname, options, callback) => {
+        // always resolve IPv4 first
+        dns.lookup(hostname, { family: 4 }, callback);
+      },
+      // keep cache hint for any other custom logic
       dns: {
         cacheTtl: 300, // 5 minutes cache
       }
