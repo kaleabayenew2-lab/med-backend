@@ -49,13 +49,12 @@ router.get('/', async (req, res) => {
     
     console.log(`✅ Found ${facilities.length} facilities`);
     
-    // Helper to build absolute image URL
-    const BASE_URL = process.env.BASE_URL || `http://localhost:${process.env.PORT || 5000}`;
-    const buildImageUrl = (p) => {
+    // Helper to build absolute image URL from the actual request host if no BASE_URL is set
+    const buildImageUrl = (p, req) => {
       if (!p) return null;
-      if (p.startsWith('http://') || p.startsWith('https://')) return p;
-      // strip any accidental double-slash
-      return `${BASE_URL}/${p.replace(/^\//, '')}`;
+      if (/^https?:\/\//i.test(p)) return p;
+      const hostUrl = process.env.BASE_URL || `${req.protocol}://${req.get('host')}`;
+      return `${hostUrl}/${p.replace(/^\//, '')}`;
     };
     
     // Handle empty result
@@ -83,12 +82,12 @@ router.get('/', async (req, res) => {
       pharmacyType: facility.pharmacyType || '',
       ownership: facility.ownership || '',
       agentId: facility.agentId || null,
-      profileImage: buildImageUrl(facility.profile),
+      profileImage: buildImageUrl(facility.profile, req),
       galleryImages: (() => {
         try {
           if (!facility.gallary) return [];
           const arr = typeof facility.gallary === 'string' ? JSON.parse(facility.gallary) : facility.gallary;
-          return arr.map(buildImageUrl).filter(Boolean);
+          return arr.map((item) => buildImageUrl(item, req)).filter(Boolean);
         } catch (e) {
           return [];
         }
