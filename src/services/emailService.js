@@ -11,29 +11,6 @@ try {
 }
 
 let transporter = null;
-let sendGridClientLoaded = null;
-
-function loadSendGridClient() {
-  if (sendGridClientLoaded !== null) return sendGridClientLoaded;
-
-  const apiKey = process.env.SENDGRID_API_KEY;
-  if (!apiKey) {
-    sendGridClientLoaded = false;
-    return false;
-  }
-
-  try {
-    const sgMail = require('@sendgrid/mail');
-    sgMail.setApiKey(apiKey);
-    sendGridClientLoaded = sgMail;
-    console.log('📧 SendGrid client loaded');
-    return sgMail;
-  } catch (err) {
-    console.warn('⚠️ SendGrid client not available:', err && err.message ? err.message : err);
-    sendGridClientLoaded = false;
-    return false;
-  }
-}
 
 // Create transporter once (lazy-init)
 function createTransporter() {
@@ -80,30 +57,6 @@ function createTransporter() {
   });
 
   return transporter;
-}
-
-async function sendViaSendGrid(to, subject, htmlContent) {
-  const sgMail = loadSendGridClient();
-  if (!sgMail) {
-    return { success: false, error: 'SendGrid unavailable' };
-  }
-
-  try {
-    const msg = {
-      to,
-      from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
-      subject,
-      html: htmlContent,
-    };
-
-    const response = await sgMail.send(msg);
-    const messageId = Array.isArray(response) && response[0] && response[0].headers ? response[0].headers['x-message-id'] : null;
-    console.log('✅ Email sent via SendGrid:', messageId || 'sent');
-    return { success: true, method: 'sendgrid', messageId };
-  } catch (error) {
-    console.error('❌ SendGrid send failed:', error && error.message ? error.message : error);
-    return { success: false, error: error && error.message ? error.message : String(error) };
-  }
 }
 
 // Send email function
