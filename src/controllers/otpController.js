@@ -110,6 +110,21 @@ async function sendOTP(req, res) {
     }
 
     if (method === 'email' && !emailResult.success) {
+      console.log('⚠️ [OTP] Email send failed for sendOTP endpoint:', emailResult?.error);
+      // Allow fallback to return OTP when configured via env or in development
+      if (process.env.OTP_FALLBACK_ON_FAILURE === 'true' || process.env.NODE_ENV !== 'production') {
+        console.log('ℹ️ [OTP] Fallback enabled - returning OTP in response for testing');
+        return res.json({
+          success: true,
+          message: 'OTP sent (console fallback)',
+          expiresIn: 600,
+          developmentOTP: otp,
+          emailSent: false,
+          emailMethod: emailResult.method || 'failed',
+          emailError: emailResult.error,
+        });
+      }
+
       return res.status(500).json({
         success: false,
         message: emailResult.error || 'Failed to send OTP email',
@@ -256,9 +271,9 @@ const sendRegistrationOtp = async (req, res) => {
       console.log(`❌ [OTP] Email failed to send in ${processingTime}ms`);
       console.log(`⚠️ [OTP] Email error: ${emailResult?.error || 'Unknown error'}`);
 
-      // In development/testing, fall back to returning the OTP so mobile can proceed.
-      if (process.env.NODE_ENV !== 'production') {
-        console.log('ℹ️ [OTP] Non-production fallback: returning OTP in response for testing');
+      // Allow fallback to return OTP when configured via env or in development
+      if (process.env.OTP_FALLBACK_ON_FAILURE === 'true' || process.env.NODE_ENV !== 'production') {
+        console.log('ℹ️ [OTP] Fallback enabled: returning OTP in response for testing');
         res.json({
           success: true,
           message: 'OTP sent (console fallback)',
