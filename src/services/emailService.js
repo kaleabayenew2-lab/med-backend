@@ -66,6 +66,10 @@ function createTransporter() {
     tls: {
       rejectUnauthorized: false,
     },
+    family: 4,
+    lookup: (hostname, options, callback) => {
+      dns.lookup(hostname, { family: 4 }, callback);
+    },
   });
 
   transporter.verify().then(() => {
