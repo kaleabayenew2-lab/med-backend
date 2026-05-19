@@ -57,9 +57,11 @@ function createTransporter() {
       user: emailUser,
       pass: emailPass,
     },
-    connectionTimeout: 10000,
-    socketTimeout: 10000,
+    connectionTimeout: 30000,
+    socketTimeout: 30000,
     pool: true,
+    maxConnections: 5,
+    maxMessages: 100,
     lookup: (hostname, options, callback) => {
       dns.lookup(hostname, { family: 4 }, callback);
     },

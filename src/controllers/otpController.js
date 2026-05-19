@@ -12,6 +12,11 @@ const isOtpFallbackEnabled = () => {
   return fallbackFlag || devReturnOtp || isDevelopment;
 };
 
+const isEmailTransportFailure = (error) => {
+  if (!error) return false;
+  return /ETIMEDOUT|ESOCKET|ENETUNREACH|ECONNREFUSED|ECONNRESET|EHOSTUNREACH/i.test(error);
+};
+
 // Generate 6-digit OTP
 function generateOtp() {
   return Math.floor(100000 + Math.random()  * 900000).toString();
@@ -280,16 +285,18 @@ const sendRegistrationOtp = async (req, res) => {
       console.log(`⚠️ [OTP] Email error: ${emailResult?.error || 'Unknown error'}`);
       console.log(`ℹ️ [OTP] Fallback enabled: ${fallbackEnabled} (OTP_FALLBACK_ON_FAILURE=${process.env.OTP_FALLBACK_ON_FAILURE}, DEV_RETURN_OTP=${process.env.DEV_RETURN_OTP}, NODE_ENV=${process.env.NODE_ENV})`);
 
-      if (fallbackEnabled) {
-        console.log('ℹ️ [OTP] Returning development OTP for testing');
+      if (fallbackEnabled || isEmailTransportFailure(emailResult?.error)) {
+        const fallbackReason = isOtpFallbackEnabled() ? 'fallback_enabled' : 'transport_failure';
+        console.log(`ℹ️ [OTP] Returning development OTP due to ${fallbackReason}`);
         res.json({
           success: true,
-          message: 'OTP email failed, using development fallback',
+          message: 'OTP email failed, using fallback OTP',
           expiresIn: '10 minutes',
           developmentOTP: otp,
           processingTime: `${processingTime}ms`,
           emailError: emailResult?.error,
           emailMethod: emailResult?.method || 'failed',
+          fallbackReason,
         });
         return;
       }
