@@ -229,19 +229,23 @@ const sendRegistrationOtp = async (req, res) => {
     `;
 
     console.log('📤 [OTP] Sending email...');
-    
-    // FIX: Don't re-initialize email service every time - it should already be initialized
-    // await initializeEmailService(); // REMOVE THIS LINE
-    
+
+    // Ensure email service is initialized (harmless if already initialized)
+    try {
+      await initializeEmailService();
+    } catch (initErr) {
+      console.warn('⚠️ [OTP] Email service initialization warning:', initErr && initErr.message ? initErr.message : initErr);
+    }
+
     const emailResult = await sendOTPEmail(email, subject, html);
-    
+
     const endTime = Date.now();
     const processingTime = endTime - startTime;
-    
+
     if (emailResult && emailResult.success) {
       console.log(`✅ [OTP] Email sent successfully in ${processingTime}ms`);
       console.log(`📊 [OTP] Email method: ${emailResult.method || 'unknown'}`);
-      
+
       res.json({ 
         success: true, 
         message: 'OTP sent successfully',
@@ -251,10 +255,25 @@ const sendRegistrationOtp = async (req, res) => {
     } else {
       console.log(`❌ [OTP] Email failed to send in ${processingTime}ms`);
       console.log(`⚠️ [OTP] Email error: ${emailResult?.error || 'Unknown error'}`);
-      
+
+      // In development/testing, fall back to returning the OTP so mobile can proceed.
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('ℹ️ [OTP] Non-production fallback: returning OTP in response for testing');
+        res.json({
+          success: true,
+          message: 'OTP sent (console fallback)',
+          expiresIn: '10 minutes',
+          developmentOTP: otp,
+          processingTime: `${processingTime}ms`,
+          emailError: emailResult?.error,
+        });
+        return;
+      }
+
       res.status(500).json({ 
         success: false, 
-        message: 'Failed to send OTP email' 
+        message: 'Failed to send OTP email',
+        emailError: emailResult?.error,
       });
     }
   } catch (error) {
