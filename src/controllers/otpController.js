@@ -7,8 +7,9 @@ const otpStore = new Map();
 
 const isOtpFallbackEnabled = () => {
   const fallbackFlag = process.env.OTP_FALLBACK_ON_FAILURE === 'true';
+  const devReturnOtp = process.env.DEV_RETURN_OTP === 'true';
   const isDevelopment = process.env.NODE_ENV !== 'production';
-  return fallbackFlag || isDevelopment;
+  return fallbackFlag || devReturnOtp || isDevelopment;
 };
 
 // Generate 6-digit OTP
@@ -118,7 +119,7 @@ async function sendOTP(req, res) {
     if (method === 'email' && !emailResult.success) {
       console.log('⚠️ [OTP] Email send failed for sendOTP endpoint:', emailResult?.error);
       // Allow fallback to return OTP when configured via env or in development
-      if (process.env.OTP_FALLBACK_ON_FAILURE === 'true' || process.env.NODE_ENV !== 'production') {
+      if (isOtpFallbackEnabled()) {
         console.log('ℹ️ [OTP] Fallback enabled - returning OTP in response for testing');
         return res.json({
           success: true,
@@ -277,7 +278,7 @@ const sendRegistrationOtp = async (req, res) => {
       const fallbackEnabled = isOtpFallbackEnabled();
       console.log(`❌ [OTP] Email failed to send in ${processingTime}ms`);
       console.log(`⚠️ [OTP] Email error: ${emailResult?.error || 'Unknown error'}`);
-      console.log(`ℹ️ [OTP] Fallback enabled: ${fallbackEnabled}`);
+      console.log(`ℹ️ [OTP] Fallback enabled: ${fallbackEnabled} (OTP_FALLBACK_ON_FAILURE=${process.env.OTP_FALLBACK_ON_FAILURE}, DEV_RETURN_OTP=${process.env.DEV_RETURN_OTP}, NODE_ENV=${process.env.NODE_ENV})`);
 
       if (fallbackEnabled) {
         console.log('ℹ️ [OTP] Returning development OTP for testing');
