@@ -3,10 +3,35 @@ const nodemailer = require('nodemailer');
 const dns = require('dns');
 let transporter = null;
 
+// Optional SendGrid (HTTP API) support. If `SENDGRID_API_KEY` is set,
+// we will prefer SendGrid which uses HTTPS (port 443) and avoids SMTP egress issues.
+let sgMail = null;
+try {
+  sgMail = require('@sendgrid/mail');
+} catch (e) {
+  sgMail = null;
+}
+
 // Initialize email transporter
 const initializeEmailService = async () => {
   const emailUser = process.env.EMAIL_USER;
   const emailPass = process.env.EMAIL_PASS;
+  const sendgridKey = process.env.SENDGRID_API_KEY;
+
+  // If SendGrid key provided, initialize SendGrid client early
+  if (sendgridKey) {
+    if (sgMail) {
+      try {
+        sgMail.setApiKey(sendgridKey);
+        console.log('📧 SendGrid client initialized');
+      } catch (e) {
+        console.warn('⚠️ SendGrid init failed:', e.message || e);
+        sgMail = null;
+      }
+    } else {
+      console.warn('⚠️ @sendgrid/mail module not installed. Install with `npm i @sendgrid/mail` to use SendGrid.');
+    }
+  }
 
   if (!emailUser || !emailPass) {
     console.log('📧 Email service not configured. Falling back to console logging mode');
@@ -84,9 +109,32 @@ const sendOTPEmail = async (email, subject, html) => {
     if (!transporter) {
       await initializeEmailService();
     }
+    // Prefer SendGrid (HTTPS) when configured and module is available
+    if (sgMail && process.env.SENDGRID_API_KEY) {
+      console.log('📧 Sending email via SendGrid API');
+      const msg = {
+        to: email,
+        from: process.env.EMAIL_FROM || process.env.EMAIL_USER || 'no-reply@findme.app',
+        subject,
+        html,
+      };
+
+      try {
+        const sendPromise = sgMail.send(msg);
+        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('SendGrid send timeout')), 10000));
+        const response = await Promise.race([sendPromise, timeoutPromise]);
+        const endTime = Date.now();
+        console.log('📧 SendGrid send response:', Array.isArray(response) ? response[0].statusCode : response.statusCode);
+        return { success: true, method: 'sendgrid', processingTime: `${endTime - startTime}ms` };
+      } catch (sgErr) {
+        console.error('📧 SendGrid send failed:', sgErr && sgErr.message ? sgErr.message : sgErr);
+        // fall through to try transporter or console fallback
+      }
+    }
+
     if (transporter) {
       console.log('📧 Sending real email with optimized delivery...');
-      
+
       // Create mail options with delivery optimization
       const mailOptions = {
         from: `"Find Med" <${process.env.EMAIL_USER}>`,
@@ -108,11 +156,11 @@ const sendOTPEmail = async (email, subject, html) => {
       };
 
       console.log('📧 Sending email with high priority headers...');
-      
+
       // OPTIMIZATION 3: Send with timeout and better error handling
       const emailPromise = transporter.sendMail(mailOptions);
       const timeoutPromise = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Email sending timeout')), 10000) // 10 second timeout
+        setTimeout(() => reject(new Error('Email sending timeout')), 15000) // 15 second timeout
       );
       
       try {
@@ -126,7 +174,7 @@ const sendOTPEmail = async (email, subject, html) => {
         
         return { success: true, method: 'email', messageId: info.messageId, processingTime: `${endTime - startTime}ms` };
       } catch (emailError) {
-        console.error('📧 Email sending failed:', emailError.message);
+        console.error('📧 Email sending failed:', emailError && emailError.message ? emailError.message : emailError);
         
         // Fallback to console display
         const otpMatch = html.match(/<strong[^>]*>(\d{6})<\/strong>/) || html.match(/(\d{6})/);
@@ -135,7 +183,7 @@ const sendOTPEmail = async (email, subject, html) => {
           console.log('\x1b[32m%s\x1b[0m', '📧 Use this code as backup!\n');
         }
         
-        return { success: false, method: 'email', error: emailError.message, processingTime: `${Date.now() - startTime}ms` };
+        return { success: false, method: 'email', error: emailError.message || emailError, processingTime: `${Date.now() - startTime}ms` };
       }
     }
     
