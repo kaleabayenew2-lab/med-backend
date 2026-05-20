@@ -4,6 +4,7 @@ const controller = require('../controllers/facilitiesController');
 const uploadController = require('../controllers/uploadController');
 const db = require('../config/db');
 const { decrypt } = require('../utils/encryption');
+const auth = require('../middleware/auth');
 
 // GET /api/facilities - Get all facilities
 router.get('/', async (req, res) => {
@@ -202,7 +203,7 @@ router.post('/send-password-email', controller.sendPasswordEmail);
 router.post('/', controller.create);
 router.post('/login', controller.login);
 router.get('/:id', controller.get);
-router.put('/:id', controller.update);
+router.put('/:id', auth, controller.update);
 router.post('/:id/view', controller.recordView);
 router.post('/:id/rate', controller.rate);
 router.post('/:id/upload-profile', uploadController.uploadProfileImage);

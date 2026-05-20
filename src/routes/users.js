@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const usersController = require('../controllers/usersController');
 const { body, validationResult } = require('express-validator');
+const auth = require('../middleware/auth');
 
 // simple validation runner used by routes below
 function runValidation(req, res, next) {
@@ -129,16 +130,16 @@ router.delete('/:id/device-tokens', usersController.removeDeviceToken);
 // =============================
 
 // List all users
-router.get('/', usersController.listUsers);
+router.get('/', auth, usersController.listUsers);
 
 // Update user
-router.put('/:id', usersController.updateUser);
+router.put('/:id', auth, usersController.updateUser);
 
 // Delete user
-router.delete('/:id', usersController.deleteUser);
+router.delete('/:id', auth, usersController.deleteUser);
 
 // Reset user password
-router.post('/:id/reset-password', usersController.resetPassword);
+router.post('/:id/reset-password', auth, usersController.resetPassword);
 
 
 module.exports = router;

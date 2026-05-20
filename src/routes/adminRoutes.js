@@ -2,6 +2,10 @@
 const express = require('express');
 const router = express.Router();
 const adminController = require('../controllers/adminController');
+const auth = require('../middleware/auth');
+
+// Apply auth middleware to all admin routes
+router.use(auth);
 
 // GET /api/admin/settings - Get admin settings
 router.get('/settings', adminController.getSettings);
