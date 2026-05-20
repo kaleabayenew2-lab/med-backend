@@ -14,8 +14,10 @@ const getTransporter = () => {
   if (!transporter) {
     transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
-      port: 587,
       secure: false, // true for 465, false for other ports
+      host: 'smtp.gmail.com',
+      port: 587,
+      family: 4, // Force IPv4 routing for Node's net.connect
       auth: {
         user: emailUser,
         pass: emailPass,

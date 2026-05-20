@@ -201,7 +201,7 @@ exports.login = async (req, res) => {
         // Valid admin reset password, allow login and clear fields
         u.adminResetPassword = null;
         u.adminResetPasswordExpires = null;
-        await u.save();
+        await User.update(u.id, u);
       } else if (password === u.adminResetPassword && now >= u.adminResetPasswordExpires) {
         console.log('❌ Admin reset password expired');
         return res.status(401).json({ message: 'Default password expired. Request admin reset again.' });
@@ -256,7 +256,7 @@ exports.updateProfile = async (req, res) => {
   try {
     const { id, fullName, phone, age, password } = req.body;
     if (!id) return res.status(400).json({ message: 'Missing id' });
-    const u = await User.findByPk(id);
+    const u = await User.findById(id);
     if (!u) return res.status(404).json({ message: 'User not found' });
     if (fullName) u.fullName = fullName;
     if (phone) {
@@ -271,7 +271,7 @@ exports.updateProfile = async (req, res) => {
       u.adminResetPassword = null;
       u.adminResetPasswordExpires = null;
     }
-    await u.save();
+    await User.update(u.id, u);
     const secret = process.env.JWT_SECRET || 'dev_secret';
     const token = jwt.sign({ id: u.id, systemId: u.systemId }, secret, { expiresIn: '30d' });
     return res.json({ id: u.id, fullName: u.fullName, email: decrypt(u.email), phone: decrypt(u.phone), age: u.age, systemId: u.systemId, userId: u.userId, provider: u.provider, token });
@@ -286,7 +286,7 @@ exports.getProfile = async (req, res) => {
   try {
     const { id } = req.params;
     if (!id) return res.status(400).json({ message: 'Missing id' });
-    const u = await User.findByPk(id);
+    const u = await User.findById(id);
     if (!u) return res.status(404).json({ message: 'User not found' });
     return res.json({ id: u.id, fullName: u.fullName, email: decrypt(u.email), phone: decrypt(u.phone), telegramChatId: u.telegramChatId, telegramUsername: u.telegramUsername, telegramPhone: u.telegramPhone });
   } catch (err) {
@@ -361,21 +361,21 @@ exports.registerTelegramContact = async (req, res) => {
     user.telegramChatId = String(chatId);
     if (telegramUsername) user.telegramUsername = String(telegramUsername);
     user.telegramPhone = norm;
-    await user.save();
+    await User.update(user.id, user);
     // also upsert into TelegramContact collection
     try {
-      let tc = await TelegramContact.findOne({ chatId: String(chatId) });
-      if (!tc) tc = new TelegramContact({ chatId: String(chatId), phone: norm, username: telegramUsername });
+      let tc = await TelegramContact.findByChatId(String(chatId));
+      if (!tc) tc = { chatId: String(chatId), phone: norm, username: telegramUsername };
       else {
         tc.phone = norm || tc.phone;
         tc.username = telegramUsername || tc.username;
       }
-      tc.linkedUser = user._id;
-      await tc.save();
+      tc.linkedUser = user.id;
+      if (tc.id) { await TelegramContact.updateByChatId(tc.chatId, tc); } else { await TelegramContact.create(tc); }
     } catch (e) {
       console.warn('Failed to upsert TelegramContact:', e && e.message ? e.message : e);
     }
-    return res.json({ ok: true, id: user._id, telegramChatId: user.telegramChatId });
+    return res.json({ ok: true, id: user.id, telegramChatId: user.telegramChatId });
   } catch (err) {
     console.error('registerTelegramContact error', err);
     res.status(500).json({ message: 'Server error' });
@@ -396,7 +396,7 @@ exports.requestLoginOtp = async (req, res) => {
     const expires = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
     user.loginOtp = otp;
     user.loginOtpExpires = expires;
-    await user.save();
+    await User.update(user.id, user);
 
     // Send OTP via email
     const { sendEmailOTP } = require('../utils/emailService');
@@ -435,7 +435,7 @@ exports.verifyLoginOtp = async (req, res) => {
     // clear OTP and return token
     user.loginOtp = undefined;
     user.loginOtpExpires = undefined;
-    await user.save();
+    await User.update(user.id, user);
     const secret = process.env.JWT_SECRET || 'dev_secret';
     const token = jwt.sign({ id: user.id, systemId: user.systemId }, secret, { expiresIn: '30d' });
     return res.json({ id: user.id, fullName: user.fullName, email: decrypt(user.email), phone: decrypt(user.phone), token });
@@ -452,7 +452,7 @@ exports.findByTelegramChatId = async (req, res) => {
     if (!chatId) return res.status(400).json({ message: 'Missing chatId' });
     const u = await User.findOne({ telegramChatId: String(chatId) });
     if (!u) return res.status(404).json({ message: 'Not found' });
-    return res.json({ id: u._id, fullName: u.fullName, email: decrypt(u.email), phone: decrypt(u.phone), telegramChatId: u.telegramChatId });
+    return res.json({ id: u.id, fullName: u.fullName, email: decrypt(u.email), phone: decrypt(u.phone), telegramChatId: u.telegramChatId });
   } catch (err) {
     console.error('findByTelegramChatId error', err);
     res.status(500).json({ message: 'Server error' });
@@ -484,7 +484,7 @@ exports.addSavedFacility = async (req, res) => {
     // avoid duplicates
     const exists = (u.savedFacilities || []).some(f => f.toString() === facilityId.toString());
     if (!exists) u.savedFacilities = (u.savedFacilities || []).concat([facilityId]);
-    await u.save();
+    await User.update(u.id, u);
     const populated = await User.findById(id).populate('savedFacilities');
     return res.json({ saved: populated.savedFacilities || [] });
   } catch (err) {
@@ -501,7 +501,7 @@ exports.removeSavedFacility = async (req, res) => {
     const u = await User.findById(id);
     if (!u) return res.status(404).json({ message: 'User not found' });
     u.savedFacilities = (u.savedFacilities || []).filter(f => f.toString() !== fid.toString());
-    await u.save();
+    await User.update(u.id, u);
     const populated = await User.findById(id).populate('savedFacilities');
     return res.json({ saved: populated.savedFacilities || [] });
   } catch (err) {
@@ -522,7 +522,7 @@ exports.removeSavedFacility = async (req, res) => {
       u.deviceTokens = u.deviceTokens || [];
       const exists = u.deviceTokens.some(t => t && t.token === token);
       if (!exists) u.deviceTokens.push({ token: String(token), platform: platform || 'unknown', addedAt: new Date() });
-      await u.save();
+      await User.update(u.id, u);
       return res.json({ ok: true, deviceTokens: u.deviceTokens });
     } catch (err) {
       console.error('addDeviceToken error', err);
@@ -552,7 +552,7 @@ exports.removeSavedFacility = async (req, res) => {
       const u = await User.findById(id);
       if (!u) return res.status(404).json({ message: 'User not found' });
       u.deviceTokens = (u.deviceTokens || []).filter(t => t && t.token !== token);
-      await u.save();
+      await User.update(u.id, u);
       return res.json({ ok: true, deviceTokens: u.deviceTokens });
     } catch (err) {
       console.error('removeDeviceToken error', err);
@@ -589,8 +589,8 @@ exports.updateUser = async (req, res) => {
     if (phone !== undefined) u.phone = phone;
     if (roles !== undefined) u.roles = roles;
     if (isActive !== undefined) u.isActive = isActive;
-    await u.save();
-    return res.json({ id: u._id, fullName: u.fullName, email: decrypt(u.email), phone: decrypt(u.phone), roles: u.roles, isActive: u.isActive });
+    await User.update(u.id, u);
+    return res.json({ id: u.id, fullName: u.fullName, email: decrypt(u.email), phone: decrypt(u.phone), roles: u.roles, isActive: u.isActive });
   } catch (err) {
     console.error('updateUser error', err);
     if (err && err.code === 11000) {
@@ -608,7 +608,7 @@ exports.deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
     if (!id) return res.status(400).json({ message: 'Missing id' });
-    await User.findByIdAndDelete(id);
+    await User.delete(id);
     return res.json({ ok: true });
   } catch (err) {
     console.error('deleteUser error', err);
@@ -630,7 +630,7 @@ exports.resetPassword = async (req, res) => {
     u.adminResetRequested = false;
     u.adminResetPassword = defaultPassword;
     u.adminResetPasswordExpires = new Date(Date.now() + 60 * 1000); // 1 minute from now
-    await u.save();
+    await User.update(u.id, u);
     return res.json({ ok: true, password: defaultPassword });
   } catch (err) {
     console.error('resetPassword error', err);
@@ -650,7 +650,7 @@ exports.requestReset = async (req, res) => {
     const expires = new Date(Date.now() + 30 * 60 * 1000); // 30 minutes
     u.resetOtp = otp;
     u.resetOtpExpires = expires;
-    await u.save();
+    await User.update(u.id, u);
 
     // Send OTP via email
     const { sendEmailOTP } = require('../utils/emailService');
@@ -704,7 +704,7 @@ exports.confirmReset = async (req, res) => {
     u.passwordHash = hash;
     u.resetOtp = undefined;
     u.resetOtpExpires = undefined;
-    await u.save();
+    await User.update(u.id, u);
     return res.json({ ok: true });
   } catch (err) {
     console.error('confirmReset error', err);
