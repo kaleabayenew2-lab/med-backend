@@ -4,6 +4,7 @@ const express = require('express'); // ADD THIS - missing express import
 const app = require('./src/app');
 const path = require('path');
 
+const os = require('os');
 const HospitalType = require('./src/models/hospitalType');
 const PharmacyType = require('./src/models/pharmacyType');
 
@@ -86,13 +87,24 @@ try {
     });
   });
   
-  server.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-    console.log(`📊 Health check: http://localhost:${PORT}/health`);
-    console.log(`🏥 Facilities API: http://localhost:${PORT}/api/facilities`);
-    console.log(`🔐 OTP API: http://localhost:${PORT}/api/otp`);
-    console.log(`👨‍💼 Admin API: http://localhost:${PORT}/api/admin`);
-    console.log(`🔌 Socket.IO: http://localhost:${PORT}/socket.io`);
+  const HOST = process.env.HOST || '0.0.0.0';
+  server.listen(PORT, HOST, () => {
+    console.log(`🚀 Server running on ${HOST}:${PORT}`);
+    console.log(`📊 Health check: http://${HOST === '0.0.0.0' ? 'localhost' : HOST}:${PORT}/health`);
+    console.log(`🏥 Facilities API: http://${HOST === '0.0.0.0' ? 'localhost' : HOST}:${PORT}/api/facilities`);
+    console.log(`🔐 OTP API: http://${HOST === '0.0.0.0' ? 'localhost' : HOST}:${PORT}/api/otp`);
+    console.log(`👨‍💼 Admin API: http://${HOST === '0.0.0.0' ? 'localhost' : HOST}:${PORT}/api/admin`);
+    console.log(`🔌 Socket.IO: http://${HOST === '0.0.0.0' ? 'localhost' : HOST}:${PORT}/socket.io`);
+
+    const interfaces = os.networkInterfaces();
+    Object.values(interfaces).forEach((networkArray) => {
+      if (!networkArray) return;
+      networkArray.forEach((network) => {
+        if (network.family === 'IPv4' && !network.internal) {
+          console.log(`🌐 Network address: http://${network.address}:${PORT}`);
+        }
+      });
+    });
   });
 
   // Handle graceful shutdown
