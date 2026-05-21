@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express'); // ADD THIS - missing express import
 const app = require('./src/app');
 const path = require('path');
+const { updateBackendUrl } = require('./src/services/githubUpdater');
 
 const os = require('os');
 const HospitalType = require('./src/models/hospitalType');
@@ -88,7 +89,7 @@ try {
   });
   
   const HOST = process.env.HOST || '0.0.0.0';
-  server.listen(PORT, HOST, () => {
+  server.listen(PORT, HOST, async () => {
     console.log(`🚀 Server running on ${HOST}:${PORT}`);
     console.log(`📊 Health check: http://${HOST === '0.0.0.0' ? 'localhost' : HOST}:${PORT}/health`);
     console.log(`🏥 Facilities API: http://${HOST === '0.0.0.0' ? 'localhost' : HOST}:${PORT}/api/facilities`);
@@ -105,6 +106,16 @@ try {
         }
       });
     });
+
+    const currentUrl = process.env.BACKEND_URL ||
+      `https://${process.env.RENDER_EXTERNAL_URL}` ||
+      `http://localhost:${PORT}`;
+
+    await updateBackendUrl(currentUrl);
+
+    setInterval(() => {
+      updateBackendUrl(currentUrl);
+    }, 60 * 60 * 1000);
   });
 
   // Handle graceful shutdown
