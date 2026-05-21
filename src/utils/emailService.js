@@ -13,13 +13,9 @@ const getTransporter = () => {
 
   if (!transporter) {
     transporter = nodemailer.createTransport({
-      host: '192.178.223.108',
-      tls: { servername: 'smtp.gmail.com', rejectUnauthorized: false },
-      secure: false, // true for 465, false for other ports
-      host: '192.178.223.108',
-      tls: { servername: 'smtp.gmail.com', rejectUnauthorized: false },
+      host: 'smtp.gmail.com',
       port: 587,
-      family: 4, // Force IPv4 routing for Node's net.connect
+      secure: false, // true for 465, false for other ports
       auth: {
         user: emailUser,
         pass: emailPass,
@@ -27,12 +23,13 @@ const getTransporter = () => {
       pool: true,
       maxConnections: 5,
       maxMessages: 100,
-      connectionTimeout: 5000, // 5 seconds
-      greetingTimeout: 3000,   // 3 seconds
-      socketTimeout: 10000,    // 10 seconds
-      dns: {
-        cacheTtl: 300, // 5 minutes cache
-      }
+      connectionTimeout: 10000, // 10 seconds
+      greetingTimeout: 5000,    // 5 seconds
+      socketTimeout: 15000,     // 15 seconds
+      tls: {
+        rejectUnauthorized: false
+      },
+      family: 4 // Force IPv4 routing
     });
   }
   return transporter;

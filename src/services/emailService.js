@@ -22,29 +22,22 @@ function createTransporter() {
   console.log('📧 Creating Gmail transporter with user:', emailUser);
 
   transporter = nodemailer.createTransport({
-    host: '192.178.223.108',
-      tls: { servername: 'smtp.gmail.com', rejectUnauthorized: false },
-    secure: false,
-    host: '192.178.223.108',
-      tls: { servername: 'smtp.gmail.com', rejectUnauthorized: false },
+    host: 'smtp.gmail.com',
     port: 587,
-    family: 4, // Force IPv4 routing for Node's net.connect
+    secure: false,
     auth: {
       user: emailUser,
       pass: emailPass,
     },
-    connectionTimeout: 30000,
-    socketTimeout: 30000,
+    connectionTimeout: 15000,
+    socketTimeout: 15000,
     pool: true,
     maxConnections: 5,
     maxMessages: 100,
     tls: {
-      rejectUnauthorized: false,
+      rejectUnauthorized: false
     },
-    family: 4,
-    dns: {
-      family: 4,
-    },
+    family: 4
   });
 
   transporter.verify().then(() => {
